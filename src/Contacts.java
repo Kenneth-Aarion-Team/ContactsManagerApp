@@ -62,6 +62,17 @@ public class Contacts {
 
                 List<String> contactsList = Files.readAllLines(dataFile);
 
+                String comp1 = "Contact Name";
+                String comp2 = "Contact Number";
+                String comp3 = "______";
+
+//                String present1 = String.format( "%16s%10d", comp1, comp2);
+//                String present2 = String.format( "%16s%10d", comp3, comp3);
+
+//                System.out.println(present1);
+//                System.out.println(present2);
+                System.out.printf("%16s%10d%", "Name", "Phone Number");
+
                 for (String contact : contactsList) {
                     System.out.println(contact);
                 }
@@ -81,10 +92,14 @@ public class Contacts {
                 long contactNumber = sc.nextLong();
                 String contactNumberStr = String.valueOf(contactNumber);
 
-                String contactLine = contactFirst + " " + contactLast + " | " + contactNumberStr;
+                String fullName = contactFirst + " " + contactLast;
+
+                String sf3 = String.format( "%16s%10d", fullName, contactNumber);
+
+                String contactLine = fullName + " | " + contactNumberStr;
 
                 List<String> contactsContents = Files.readAllLines(dataFile);
-                contactsContents.add(contactLine);
+                contactsContents.add(sf3);
                 Files.write(dataFile, contactsContents);
 
 

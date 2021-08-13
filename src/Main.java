@@ -52,8 +52,8 @@ public class Main {
             System.out.println("-view contacts");
             System.out.println("-add contacts");
             System.out.println("-search contacts");
+            System.out.println("-delete contact");
             System.out.println("-exit program");
-
 
             String userSelection = input.getString();
 
@@ -72,6 +72,16 @@ public class Main {
                 System.out.println("The user selected to search.");
             }
 
+            // Delete
+            if (userSelection.toLowerCase().contains("delete")) {
+                System.out.println("The user selected to delete.");
+            }
+
+            // Exit
+            if (userSelection.toLowerCase().contains("delete")) {
+                System.out.println("The user selected to exit.");
+                userWantsToContinue = false;
+            }
 
         } while (userWantsToContinue);
 

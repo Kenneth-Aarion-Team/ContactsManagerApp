@@ -11,6 +11,144 @@ import java.util.Scanner;
 
 public class Contacts {
 
+    // view contacts function
+    public void viewContacts() throws IOException {
+
+        String directory = "data";
+        String filename = "contacts.txt";
+        Path dataDirectory = Paths.get(directory);
+        Path dataFile = Paths.get(directory, filename);
+        Input input = new Input();
+
+
+        System.out.println("The user selected to view.");
+
+        List<String> contactsList = Files.readAllLines(dataFile);
+
+        String comp1 = "Contact Name";
+        String comp2 = "Contact Number";
+        String comp3 = "______";
+
+        System.out.printf("%-24s%10s", "Name", "Phone Number");
+        System.out.println();
+
+        for (String contact : contactsList) {
+            System.out.println(contact);
+        }
+
+        ContactsApp();
+    }
+
+    // add contacts function
+    public void addContacts() throws IOException{
+        String directory = "data";
+        String filename = "contacts.txt";
+        Path dataDirectory = Paths.get(directory);
+        Path dataFile = Paths.get(directory, filename);
+        Input input = new Input();
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("The user selected to add.");
+
+        System.out.println("Enter the first name.");
+        String contactFirst = input.getString();
+
+        System.out.println("Enter the last name.");
+        String contactLast = input.getString();
+
+        System.out.println("Enter the contact's phone number.");
+        long contactNumber = sc.nextLong();
+        String contactNumberStr = String.valueOf(contactNumber);
+
+        String fullName = contactFirst + " " + contactLast;
+
+        String sf3 = String.format( "%-22s%10d", fullName, contactNumber);
+
+        String contactLine = fullName + " | " + contactNumberStr;
+
+        List<String> contactsContents = Files.readAllLines(dataFile);
+        contactsContents.add(sf3);
+        Files.write(dataFile, contactsContents);
+
+        ContactsApp();
+    }
+
+    // search contacts function
+    public void searchContacts() throws IOException {
+        String directory = "data";
+        String filename = "contacts.txt";
+        Path dataDirectory = Paths.get(directory);
+        Path dataFile = Paths.get(directory, filename);
+        Input input = new Input();
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Please enter the name of the contact to search.");
+        String userSearch = input.getString();
+
+        List<String> contactsList = Files.readAllLines(dataFile);
+
+        System.out.printf("%-24s%10s", "Name", "Phone Number");
+        System.out.println();
+
+        for (String contact : contactsList) {
+            if (contact.contains(userSearch)) {
+                System.out.println(contact);
+            }
+        }
+
+        ContactsApp();
+    }
+
+    // delete contacts function
+    public void deleteContact() throws IOException {
+
+        String directory = "data";
+        String filename = "contacts.txt";
+        Input input = new Input();
+
+
+        Path dataDirectory = Paths.get(directory);
+        Path dataFile = Paths.get(directory, filename);
+
+        System.out.println("The user selected to delete.");
+
+        List<String> contactsList = Files.readAllLines(dataFile);
+        List<String> newContactsList = new ArrayList();
+
+
+        System.out.println("Enter the name of the contact to delete.");
+
+        String userToDelete = input.getString();
+
+        System.out.printf("%-24s%10s", "Name", "Phone Number");
+        System.out.println();
+        for (String contact : contactsList) {
+            if (contact.contains(userToDelete)) {
+                System.out.println(contact);
+            }
+        }
+
+
+        if (contactsList.contains(userToDelete)) {
+
+        }
+        System.out.println("Please confirm the full name of the user to delete.");
+
+        userToDelete = input.getString();
+        for (String contact : contactsList) {
+            if (!contact.contains(userToDelete)) {
+                newContactsList.add(contact);
+            } else {
+                System.out.println(contact + " was deleted.");
+            }
+        }
+
+        Files.write(dataFile, newContactsList);
+
+        ContactsApp();
+    }
+
+
 
     public void ContactsApp() throws IOException {
 
@@ -39,8 +177,10 @@ public class Contacts {
 
         // Initial application running, prints existing contacts
 
+        System.out.println();
+        System.out.println();
+
         System.out.println("Welcome to the ContactManagementSolutions App.");
-        System.out.println("Here is your current list of contacts.");
 //        System.out.println(contactsContents);
 
         // Initial user selection
@@ -58,97 +198,22 @@ public class Contacts {
 
             // View
             if (userSelection.toLowerCase().contains("view")) {
-                System.out.println("The user selected to view.");
-
-                List<String> contactsList = Files.readAllLines(dataFile);
-
-                String comp1 = "Contact Name";
-                String comp2 = "Contact Number";
-                String comp3 = "______";
-
-//                String present1 = String.format( "%16s%10d", comp1, comp2);
-//                String present2 = String.format( "%16s%10d", comp3, comp3);
-
-//                System.out.println(present1);
-//                System.out.println(present2);
-                System.out.printf("%16s%10d%", "Name", "Phone Number");
-
-                for (String contact : contactsList) {
-                    System.out.println(contact);
-                }
+                viewContacts();
             }
 
             // Add
             if (userSelection.toLowerCase().contains("add")) {
-                System.out.println("The user selected to add.");
-
-                System.out.println("Enter the first name.");
-                String contactFirst = input.getString();
-
-                System.out.println("Enter the last name.");
-                String contactLast = input.getString();
-
-                System.out.println("Enter the contact's phone number.");
-                long contactNumber = sc.nextLong();
-                String contactNumberStr = String.valueOf(contactNumber);
-
-                String fullName = contactFirst + " " + contactLast;
-
-                String sf3 = String.format( "%16s%10d", fullName, contactNumber);
-
-                String contactLine = fullName + " | " + contactNumberStr;
-
-                List<String> contactsContents = Files.readAllLines(dataFile);
-                contactsContents.add(sf3);
-                Files.write(dataFile, contactsContents);
-
-
+                addContacts();
             }
 
             // Search
             if (userSelection.toLowerCase().contains("search")) {
-                System.out.println("The user selected to search.");
+                searchContacts();
             }
 
             // Delete
             if (userSelection.toLowerCase().contains("delete")) {
-                System.out.println("The user selected to delete.");
-
-                List<String> contactsList = Files.readAllLines(dataFile);
-                List<String> newContactsList = new ArrayList();
-
-
-                System.out.println("Enter the name of the contact to delete.");
-
-                String userToDelete = input.getString();
-
-                for (String contact : contactsList) {
-                    if (contact.contains(userToDelete)) {
-                        System.out.println(contact);
-                    }
-                }
-
-                boolean listContains = contactsList.contains("Test");
-                System.out.println(listContains);
-
-                if (contactsList.contains(userToDelete)) {
-
-                }
-                System.out.println("Please confirm the full name of the user to delete.");
-
-                userToDelete = input.getString();
-                for (String contact : contactsList) {
-                    if (!contact.contains(userToDelete)) {
-                        newContactsList.add(contact);
-                    } else {
-                        System.out.println(contact + " was deleted.");
-                    }
-                }
-
-                Files.write(dataFile, newContactsList);
-
-                ContactsApp();
-
+                deleteContact();
             }
 
             // Exit

@@ -12,7 +12,6 @@ import java.util.Scanner;
 public class Contacts {
 
 
-
     public void ContactsApp() throws IOException {
 
         Scanner sc = new Scanner(System.in);
@@ -21,7 +20,6 @@ public class Contacts {
 
         String directory = "data";
         String filename = "contacts.txt";
-
 
 
         Path dataDirectory = Paths.get(directory);
@@ -102,6 +100,8 @@ public class Contacts {
                 System.out.println("The user selected to delete.");
 
                 List<String> contactsList = Files.readAllLines(dataFile);
+                List<String> newContactsList = new ArrayList();
+
 
                 System.out.println("Enter the name of the contact to delete.");
 
@@ -113,19 +113,25 @@ public class Contacts {
                     }
                 }
 
+                boolean listContains = contactsList.contains("Test");
+                System.out.println(listContains);
+
+                if (contactsList.contains(userToDelete)) {
+
+                }
                 System.out.println("Please confirm the full name of the user to delete.");
 
                 userToDelete = input.getString();
-
-
-                int userToDeleteIndex = 0;
-
-                if (contactsList.contains(userToDelete)) {
-                    userToDeleteIndex = contactsList.indexOf(userToDelete);
+                for (String contact : contactsList) {
+                    if (!contact.contains(userToDelete)) {
+                        newContactsList.add(contact);
+                    } else {
+                        System.out.println(contact + " was deleted.");
+                    }
                 }
-                contactsList.remove(userToDeleteIndex);
-                System.out.println("User was deleted.");
-                Files.write(dataFile, contactsList);
+
+                Files.write(dataFile, newContactsList);
+
                 ContactsApp();
 
             }

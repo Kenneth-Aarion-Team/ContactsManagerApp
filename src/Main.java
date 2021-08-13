@@ -21,7 +21,7 @@ public class Main {
         ArrayList<String> contactsContents = new ArrayList<>();
 
         Path dataDirectory = Paths.get(directory);
-        Path dataFile = Paths.get(filename);
+        Path dataFile = Paths.get(directory, filename);
 
         if (Files.notExists(dataDirectory)) {
             Files.createDirectories(dataDirectory);
@@ -30,7 +30,6 @@ public class Main {
         if (Files.notExists(dataFile)) {
             Files.createFile(dataFile);
         }
-
 
         // Boolean used to determine if application should keep running
 

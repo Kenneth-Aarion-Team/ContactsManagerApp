@@ -43,8 +43,6 @@ public class Main {
 
         // Initial user selection
 
-
-
         do {
 
             System.out.println("Please enter select from the options below.");

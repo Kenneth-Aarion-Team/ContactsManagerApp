@@ -1,10 +1,12 @@
 import util.Input;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Contacts {
@@ -57,6 +59,12 @@ public class Contacts {
             // View
             if (userSelection.toLowerCase().contains("view")) {
                 System.out.println("The user selected to view.");
+
+                List<String> contactsList = Files.readAllLines(dataFile);
+
+                for (String contact : contactsList) {
+                    System.out.println(contact);
+                }
             }
 
             // Add
@@ -70,10 +78,13 @@ public class Contacts {
                 String contactLast = input.getString();
 
                 System.out.println("Enter the contact's phone number.");
-                int contactNumber = input.getInt();
-                String contactNumberStr = Integer.toString(contactNumber);
+                long contactNumber = sc.nextLong();
+                String contactNumberStr = String.valueOf(contactNumber);
 
                 String contactLine = contactFirst + " " + contactLast + " | " + contactNumberStr;
+
+                contactsContents.add(contactLine);
+                Files.write(dataFile, contactsContents);
 
 
             }

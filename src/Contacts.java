@@ -1,7 +1,6 @@
 import util.Input;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -11,10 +10,6 @@ import java.util.Scanner;
 
 public class Contacts {
 
-    // Add char function
-    public String addChar(String str, char ch, int position) {
-        return str.substring(0, position) + ch + str.substring(position);
-    }
 
     // view contacts function
     public void viewContacts() throws IOException {

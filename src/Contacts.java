@@ -88,11 +88,20 @@ public class Contacts {
 
         } while (makingName);
 
-        System.out.println("Enter the contact's phone number.");
-
         boolean needsToAddNumber = true;
-        long contactNumber = sc.nextLong();
+        long contactNumber;
+        do {
 
+            System.out.println("Enter the contact's phone number.");
+
+            contactNumber = sc.nextLong();
+
+            if (contactNumber > 1000000) {
+                needsToAddNumber = false;
+            } else {
+                System.out.println("Number is not valid, please enter again.");
+            }
+        } while (needsToAddNumber);
 
         String contactNumberStr = String.valueOf(contactNumber);
 

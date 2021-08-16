@@ -106,23 +106,23 @@ public class Contacts {
         String contactNumberStr = String.valueOf(contactNumber);
 
         if (contactNumberStr.length() == 7) {
-            addChar(contactNumberStr, '-', 3);
+            contactNumberStr = formatSeven(contactNumberStr);
         }
 
         if (contactNumberStr.length() == 10) {
-            contactNumberStr = addChar(contactNumberStr, '(', 0);
-            contactNumberStr = addChar(contactNumberStr, ')', 4);
-            contactNumberStr = addChar(contactNumberStr, '-', 7);
+            contactNumberStr = formatTen(contactNumberStr);
         }
 
+        if (contactNumberStr.length() == 11) {
+            contactNumberStr = formatEleven(contactNumberStr);
+        }
 
-
-        String sf3 = String.format( "%-22s%10d", fullName, contactNumber);
+        String sf = String.format( "%-22s%10s", fullName, contactNumberStr);
 
         String contactLine = fullName + " | " + contactNumberStr;
 
 
-        contactsContents.add(sf3);
+        contactsContents.add(sf);
         Files.write(dataFile, contactsContents);
 
         ContactsApp();
@@ -282,4 +282,47 @@ public class Contacts {
 
     }
 
+    // Phone Number Formatting - 7 digits
+    public String formatSeven(String number) {
+
+        int length = number.length();
+
+        String sub1 = number.substring(0, 3);
+        String sub2 = number.substring(3, length);
+
+        String stringToReturn = sub1 + "-" + sub2;
+        System.out.println(stringToReturn);
+        return stringToReturn;
+
+    }
+
+    // Phone Number Formatting - 10 digits
+    public String formatTen(String number) {
+
+        int length = number.length();
+
+        String sub1 = number.substring(0, 3);
+        String sub2 = number.substring(3, 6);
+        String sub3 = number.substring(6, length - 1);
+
+        String stringToReturn = "(" + sub1 + ") " + sub2 + "-" + sub3;
+        System.out.println(stringToReturn);
+        return stringToReturn;
+
+    }
+
+    // Phone Number Formatting - 11 digits
+    public String formatEleven(String number) {
+
+        int length = number.length();
+
+        String sub1 = number.substring(0, 3);
+        String sub2 = number.substring(3, 6);
+        String sub3 = number.substring(6, length);
+
+        String stringToReturn = "+1 (" + sub1 + ") " + sub2 + "-" + sub3;
+        System.out.println(stringToReturn);
+        return stringToReturn;
+
+    }
 }

@@ -128,7 +128,7 @@ public class Contacts {
         Input input = new Input();
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("Please enter the name of the contact to search.");
+        System.out.println("Please enter the name of the contact or the phone number to search for contact.");
         String userSearch = input.getString();
 
         List<String> contactsList = Files.readAllLines(dataFile);

@@ -11,6 +11,11 @@ import java.util.Scanner;
 
 public class Contacts {
 
+    // Add char function
+    public String addChar(String str, char ch, int position) {
+        return str.substring(0, position) + ch + str.substring(position);
+    }
+
     // view contacts function
     public void viewContacts() throws IOException {
 
@@ -49,24 +54,65 @@ public class Contacts {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("The user selected to add.");
+        List<String> contactsContents = Files.readAllLines(dataFile);
 
-        System.out.println("Enter the first name.");
-        String contactFirst = input.getString();
+        boolean makingName = true;
+        String fullName;
 
-        System.out.println("Enter the last name.");
-        String contactLast = input.getString();
+        do {
+
+
+            System.out.println("Enter the first name.");
+            String contactFirst = input.getString();
+
+            System.out.println("Enter the last name.");
+            String contactLast = input.getString();
+
+            fullName = contactFirst + " " + contactLast;
+
+            int similarCount = 0;
+
+            for (String contact : contactsContents) {
+                if (contact.contains(fullName)) {
+                    similarCount++;
+                }
+            }
+
+            if (similarCount > 0) {
+                System.out.println("Contact with the name " + fullName + " already exists. \nPlease enter a new name or delete the existing contact first.");
+                ContactsApp();
+            }
+            if (similarCount == 0) {
+                makingName = false;
+            }
+
+        } while (makingName);
 
         System.out.println("Enter the contact's phone number.");
+
+        boolean needsToAddNumber = true;
         long contactNumber = sc.nextLong();
+
+
         String contactNumberStr = String.valueOf(contactNumber);
 
-        String fullName = contactFirst + " " + contactLast;
+        if (contactNumberStr.length() == 7) {
+            addChar(contactNumberStr, '-', 3);
+        }
+
+        if (contactNumberStr.length() == 10) {
+            contactNumberStr = addChar(contactNumberStr, '(', 0);
+            contactNumberStr = addChar(contactNumberStr, ')', 4);
+            contactNumberStr = addChar(contactNumberStr, '-', 7);
+        }
+
+
 
         String sf3 = String.format( "%-22s%10d", fullName, contactNumber);
 
         String contactLine = fullName + " | " + contactNumberStr;
 
-        List<String> contactsContents = Files.readAllLines(dataFile);
+
         contactsContents.add(sf3);
         Files.write(dataFile, contactsContents);
 
@@ -148,8 +194,7 @@ public class Contacts {
         ContactsApp();
     }
 
-
-
+    // Main Contact App function
     public void ContactsApp() throws IOException {
 
         Scanner sc = new Scanner(System.in);
@@ -221,6 +266,7 @@ public class Contacts {
                 System.out.println("The user selected to exit.");
                 userWantsToContinue = false;
             }
+
 
         } while (userWantsToContinue);
 
